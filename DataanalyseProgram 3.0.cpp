@@ -408,7 +408,7 @@ int main()
     int rang, input;
     double RR_lin, RR_exp = 0.0f, RR_pot = 0.0f, xVærdi; //Værdier som evt. ikke benyttes foruddefineres
 
-    regression reg("dataset_geogebra4.txt"); //reg("dataset_geogebra4.txt");
+    regression reg(filnavn); //reg("dataset_geogebra4.txt");
     cout << "Datasaet er indlaest!" << endl;
     system("pause"); //Press any key to continue...
     system("cls"); //Ryd skærm for indlæst datasæt
