@@ -1,9 +1,9 @@
 /************************************************************
-*   Regressionsanalyse værktøj som kan udregne:             *
-*   - Lineær, eksponentiel og potentiel regressionsmodel    *
+*   Regressionsanalyse vÃ¦rktÃ¸j som kan udregne:             *
+*   - LineÃ¦r, eksponentiel og potentiel regressionsmodel    *
 *   - Korrelationskoefficient af regressionsmodeller        *
-*   - Outliers inkl. største afstand mellem x- og y-punkter *
-*   - x-værdi indsat i en af regressionsmodellerne          *
+*   - Outliers inkl. stÃ¸rste afstand mellem x- og y-punkter *
+*   - x-vÃ¦rdi indsat i en af regressionsmodellerne          *
 *************************************************************
 *   Lavet af: Mathias Lykholt-Ustrup HTXr20                 *
 *   Opdateret: 14. juni 2023                                *
@@ -11,8 +11,12 @@
 
 #include <iostream>
 #include <cstdlib> //Benyttes kun til ***system("pause");*** og ***system("cls");***
-#include <fstream> //Benyttes til at aflæse filer
-#include <sstream> //Benyttes til at aflæse strings
+#include <fstream> //Benyttes til at aflÃ¦se filer
+#include <sstream> //Benyttes til at aflÃ¦se strings
+
+#include <filesystem> //Benyttes til at finde mappen i brug
+#include <sys/stat.h> //Benyttes til at sÃ¸ge efter Ã¸nsket fil
+namespace fs = std::filesystem;
 
 #include "matplotlibcpp.h"
 namespace plt = matplotlibcpp;
@@ -22,7 +26,7 @@ using namespace std;
 class regression {
 
 public:
-    double xAkse[999]{}, yAkse[999]{}; //Max 1000 punkter i datasæt
+    double xAkse[999]{}, yAkse[999]{}; //Max 1000 punkter i datasÃ¦t
 
     int antal = 0; // punkter
 
@@ -35,60 +39,60 @@ public:
     double SSR = 0; //Sum Squared Regression
     double SST = 0; //Total Sum of Squares
 
-    double aLin = 0; //Hældningskoefficient af lineær regressionsmodel
-    double bLin = 0; //Startværdi af lineær regressionsmodel
+    double aLin = 0; //HÃ¦ldningskoefficient af lineÃ¦r regressionsmodel
+    double bLin = 0; //StartvÃ¦rdi af lineÃ¦r regressionsmodel
 
-    double aExp = 0; //Startværdi af eksponentiel regressionsmodel
+    double aExp = 0; //StartvÃ¦rdi af eksponentiel regressionsmodel
     double cExp = 0; //Fremskrivningsfaktor af eksponentiel regressionsmodel
 
-    double aPot = 0; //Startværdi af potentiel regressionsmodel
+    double aPot = 0; //StartvÃ¦rdi af potentiel regressionsmodel
     double cPot = 0; //Eksponent af potentiel regressionsmodel
 
-    const double e = 2.718281828459045; // Tilnærmet værdi for eulers tal
+    const double e = 2.718281828459045; // TilnÃ¦rmet vÃ¦rdi for eulers tal
 
-    bool expFejl = false; //Vil der opstå fejl ved at finde eksponentiel regressionsmodel?
-    bool potFejl = false; //Vil der opstå fejl ved at finde potentiel regressionsmodel?
+    bool expFejl = false; //Vil der opstÃ¥ fejl ved at finde eksponentiel regressionsmodel?
+    bool potFejl = false; //Vil der opstÃ¥ fejl ved at finde potentiel regressionsmodel?
 
     string filnavn;
 
     regression() : regression("dataset.txt") {}
 
-    regression(string filnavn) : filnavn(filnavn) { //Aflæs punkter fra .txt fil
-        ifstream dataset; //Initialisér ifstream (kun aflæsning af fil)
-        dataset.open(filnavn); //Åbn datasæt fil
+    regression(string filnavn) : filnavn(filnavn) { //AflÃ¦s punkter fra .txt fil
+        ifstream dataset; //InitialisÃ©r ifstream (kun aflÃ¦sning af fil)
+        dataset.open(filnavn); //Ã…bn datasÃ¦t fil
 
-        if (dataset.is_open()) { //Åbnes filen? Eksisterer filen i mappe med .cpp fil?
+        if (dataset.is_open()) { //Ã…bnes filen? Eksisterer filen i mappe med .cpp fil?
             string point; //string til at behandle given linje
 
-            while (getline(dataset, point)) { //imens der findes en string værdi i dataset:
-                stringstream s(point); //Start stringstream og seperér afhængigt af mellemrum
-                int P = 0; //x når P=0 og y når P=1
+            while (getline(dataset, point)) { //imens der findes en string vÃ¦rdi i dataset:
+                stringstream s(point); //Start stringstream og seperÃ©r afhÃ¦ngigt af mellemrum
+                int P = 0; //x nÃ¥r P=0 og y nÃ¥r P=1
                 string temp, x, y; //
-                while (s >> temp) { //Mens der aflæses stringværdier i "antal"'te linje
-                    if (P == 0) { //x-værdi aflæses
+                while (s >> temp) { //Mens der aflÃ¦ses stringvÃ¦rdier i "antal"'te linje
+                    if (P == 0) { //x-vÃ¦rdi aflÃ¦ses
                         x = temp;
                         for (int i = 0; i < x.length(); i++) { // Kommaseperatorer omskrives til punktum i x-akse
                             if (x[i] == ',') {
                                 x[i] = '.';
                             }
                         }
-                        if (x[x.length() - 1] == ',') { //Fjern eksisterende komma imellem x- og y-værdi
+                        if (x[x.length() - 1] == ',') { //Fjern eksisterende komma imellem x- og y-vÃ¦rdi
                             x.pop_back();
                         }
-                        xAkse[antal] = stof(x); //Konvertering fra string til float af x-værdi
-                        if (xAkse[antal] <= 0) { //Den potentielle regressionsmodel kan ikke benyttes med x=0 eller negative x-værdier
+                        xAkse[antal] = stof(x); //Konvertering fra string til float af x-vÃ¦rdi
+                        if (xAkse[antal] <= 0) { //Den potentielle regressionsmodel kan ikke benyttes med x=0 eller negative x-vÃ¦rdier
                             potFejl = true;
                         }
                     }
-                    else { //y-værdi aflæses
+                    else { //y-vÃ¦rdi aflÃ¦ses
                         y = temp;
                         for (int i = 0; i < y.length(); i++) { // Kommaseperator omskrives til punktum i y-akse
                             if (y[i] == ',') {
                                 y[i] = '.';
                             }
                         }
-                        yAkse[antal] = stof(y); //Konvertering fra string til float af y-værdi
-                        if (yAkse[antal] <= 0) { //Den potentielle og eksponentielle regressionsmodel kan ikke benyttes med y=0 eller negative y-værdier
+                        yAkse[antal] = stof(y); //Konvertering fra string til float af y-vÃ¦rdi
+                        if (yAkse[antal] <= 0) { //Den potentielle og eksponentielle regressionsmodel kan ikke benyttes med y=0 eller negative y-vÃ¦rdier
                             expFejl = true;
                             potFejl = true;
                         }
@@ -96,8 +100,8 @@ public:
                     P++;
                 }
                 antal++;
-                if (antal > 1000) { // Grænsen for hvor mange punkter som aflæses sættes
-                    cout << "Advarsel: Max antal punkter sat til " << antal << endl; // Hvor "antal" er afhængig af linje 14
+                if (antal > 1000) { // GrÃ¦nsen for hvor mange punkter som aflÃ¦ses sÃ¦ttes
+                    cout << "Advarsel: Max antal punkter sat til " << antal << endl; // Hvor "antal" er afhÃ¦ngig af linje 14
                     break;
                 }
                 cout << "Punkt nr." << antal << "\t[" << x << ";" << y << "]" << endl;
@@ -128,7 +132,7 @@ public:
         SST = 0;
     }
 
-    string linReg() { //Udregner lineær regressionsmodel og returnerer den i string
+    string linReg() { //Udregner lineÃ¦r regressionsmodel og returnerer den i string
         reset();
         for (int i = 0; i < antal; i++) {
             sumX = sumX + xAkse[i];
@@ -142,14 +146,14 @@ public:
         return "y = " + to_string(aLin) + "x + " + to_string(bLin);
     }
 
-    double linModelx(double xValue, double a, double b) { // Funktionen benyttes til flere lineære regressionsmodeller
+    double linModelx(double xValue, double a, double b) { // Funktionen benyttes til flere lineÃ¦re regressionsmodeller
         return a * xValue + b;
     }
 
-    double LinRR() { // Den bedre metode til at finde R^2 for lineær regressionsmodel
+    double LinRR() { // Den bedre metode til at finde R^2 for lineÃ¦r regressionsmodel
         reset();
 
-        //Find gennemsnitsværdi for y-akse og y-værdi(er) funet ud fra regressionsmodel
+        //Find gennemsnitsvÃ¦rdi for y-akse og y-vÃ¦rdi(er) funet ud fra regressionsmodel
         for (int i = 0; i < antal; i++) {
             sumY = sumY + yAkse[i];
         }
@@ -185,7 +189,7 @@ public:
     double ExpRR() {
         reset();
 
-        //Find gennemsnitsværdi for y-akse og y-værdi(er) fundet ud fra regressionsmodel
+        //Find gennemsnitsvÃ¦rdi for y-akse og y-vÃ¦rdi(er) fundet ud fra regressionsmodel
         for (int i = 0; i < antal; i++) {
             sumY = sumY + yAkse[i];
         }
@@ -221,7 +225,7 @@ public:
     double PotRR() {
         reset();
 
-        //Find gennemsnitsværdi for y-akse og y-værdi(er) fundet ud fra regressionsmodel
+        //Find gennemsnitsvÃ¦rdi for y-akse og y-vÃ¦rdi(er) fundet ud fra regressionsmodel
         for (int i = 0; i < antal; i++) {
             sumY = sumY + yAkse[i];
         }
@@ -235,7 +239,7 @@ public:
         return 1 - SSR / SST;
     }
 
-    string DMnVM() { //Print definitions- og værdimængde
+    string DMnVM() { //Print definitions- og vÃ¦rdimÃ¦ngde
         double DM_min = xAkse[0];
         double DM_max = xAkse[antal - 1];
         double VM_min = yAkse[0];
@@ -244,13 +248,13 @@ public:
             ") og vaerdimaengden VM(" + to_string(VM_min) + ";" + to_string(VM_max) + ")";
     }
 
-    double xAkseAfstand() { //Den største afstand mellem punkter ift. x-aksen findes.
+    double xAkseAfstand() { //Den stÃ¸rste afstand mellem punkter ift. x-aksen findes.
         double xAfstand = xAkse[1] - xAkse[0];
         for (int i = 0; i < antal - 1; i++) {
-            if (xAfstand < xAkse[i + 1] - xAkse[i]) { //Positiv x tilvækst tages højde for
+            if (xAfstand < xAkse[i + 1] - xAkse[i]) { //Positiv x tilvÃ¦kst tages hÃ¸jde for
                 xAfstand = xAkse[i + 1] - xAkse[i];
             }
-            if (xAfstand < xAkse[i] - xAkse[i + 1]) { //Negativ x tilvækst tages højde for
+            if (xAfstand < xAkse[i] - xAkse[i + 1]) { //Negativ x tilvÃ¦kst tages hÃ¸jde for
                 xAfstand = xAkse[i] - xAkse[i + 1];
             }
         }
@@ -258,13 +262,13 @@ public:
         return xAfstand;
     }
 
-    double yAkseAfstand() { //Den største afstand mellem punkter ift. y-aksen findes.
+    double yAkseAfstand() { //Den stÃ¸rste afstand mellem punkter ift. y-aksen findes.
         double yAfstand = yAkse[1] - yAkse[0];
         for (int i = 0; i < antal - 1; i++) {
-            if (yAfstand < yAkse[i + 1] - yAkse[i]) { //Postitiv y tilvækst tages højde for
+            if (yAfstand < yAkse[i + 1] - yAkse[i]) { //Postitiv y tilvÃ¦kst tages hÃ¸jde for
                 yAfstand = yAkse[i + 1] - yAkse[i];
             }
-            if (yAfstand < yAkse[i] - yAkse[i + 1]) { //Negativ y tilvækst tages højde for
+            if (yAfstand < yAkse[i] - yAkse[i + 1]) { //Negativ y tilvÃ¦kst tages hÃ¸jde for
                 yAfstand = yAkse[i] - yAkse[i + 1];
             }
         }
@@ -290,14 +294,14 @@ public:
         return outlier_antal;
     }
 
-    string linReg2x() { //Udregner lineær regressionsmodel og korrelationskoefficient R^2 for hver den ene og anden halvdel af datasættet
+    string linReg2x() { //Udregner lineÃ¦r regressionsmodel og korrelationskoefficient R^2 for hver den ene og anden halvdel af datasÃ¦ttet
         double aLin1;
         double bLin1;
         double aLin2;
         double bLin2;
 
         int antal_halv = antal / 2;
-        //Lineær regressionsmodel for første halvdel af datasæt
+        //LineÃ¦r regressionsmodel for fÃ¸rste halvdel af datasÃ¦t
         reset();
         for (int i = 0; i < antal_halv; i++) {
             sumX = sumX + xAkse[i];
@@ -316,7 +320,7 @@ public:
         }
         double RR_1 = 1 - SSR / SST;
 
-        //Lineær regressionsmodel for sidste halvdel af datasæt
+        //LineÃ¦r regressionsmodel for sidste halvdel af datasÃ¦t
         reset();
         for (int i = antal_halv; i < antal; i++) {
             sumX = sumX + xAkse[i];
@@ -350,11 +354,11 @@ public:
         x_pot.clear();
         y_pot.clear();
 
-        for (int i = 0; i < antal; i++) { //datasæt plot
+        for (int i = 0; i < antal; i++) { //datasÃ¦t plot
             x.push_back(xAkse[i]);
             y.push_back(yAkse[i]);
         }
-        for (int i = 0; i < antal; i++) { //Lineær regressionsmodel plot
+        for (int i = 0; i < antal; i++) { //LineÃ¦r regressionsmodel plot
             x_lin.push_back(xAkse[i]);
             y_lin.push_back(linModelx(xAkse[i], aLin, bLin));
         }
@@ -380,14 +384,34 @@ public:
 
 int main()
 {    
+    string filnavn; //"filnavn" af programmet
+    struct stat sb;
+
+    //Finder mappen hvori der sÃ¸ges efter filer
+    std::filesystem::path fillokation("RegressionAnalysis_matplotlib.cpp");
+    cout << "Mappe anvendt: \n" << fs::absolute(fillokation).remove_filename().string() << endl;
+
+    //SÃ¸g efter fil der skal anvendes til regressionsanalyse
+    while (1) {
+        cout << "\nIndtast filnavn (husk .txt):" << endl;
+        cin >> filnavn;
+        if (stat(filnavn.c_str(), &sb) == 0 && !(sb.st_mode & S_IFDIR)) {
+            cout << "Filen eksisterer!" << endl;
+            break;
+            
+        }
+        else {
+            cout << "Filen eksisterer ikke. Proev igen" << endl;
+        }
+    }
     string lineaer, eksponentiel, potentiel;
     int rang, input;
-    double RR_lin, RR_exp = 0.0f, RR_pot = 0.0f, xVærdi; //Værdier som evt. ikke benyttes foruddefineres
+    double RR_lin, RR_exp = 0.0f, RR_pot = 0.0f, xVÃ¦rdi; //VÃ¦rdier som evt. ikke benyttes foruddefineres
 
     regression reg("dataset_geogebra4.txt"); //reg("dataset_geogebra4.txt");
     cout << "Datasaet er indlaest!" << endl;
     system("pause"); //Press any key to continue...
-    system("cls"); //Ryd skærm for indlæst datasæt
+    system("cls"); //Ryd skÃ¦rm for indlÃ¦st datasÃ¦t
 
     lineaer = reg.linReg();
     RR_lin = reg.LinRR();
@@ -401,7 +425,7 @@ int main()
         RR_pot = reg.PotRR();
     }
 
-    double RR[3]{}; // Hvor RR[0] er for lineær, RR[1] for eksponentiel og RR[2] for potentiel regressionsmodel
+    double RR[3]{}; // Hvor RR[0] er for lineÃ¦r, RR[1] for eksponentiel og RR[2] for potentiel regressionsmodel
 
     while (1) { // Forever loop
         /* Udregn (hvis muligt) regressionsmodeller samt korrelationskoefficienter */
@@ -424,15 +448,15 @@ int main()
         }
         cout << "RANGERING AF REGRESSIONSMODELLER: " << endl;
 
-        for (rang = 1; RR[0] + RR[1] + RR[2] > 0; rang++) { // Mens der ikke er regressionsmodeller som er taget højde for. SELECTIONSORT GO BRR
+        for (rang = 1; RR[0] + RR[1] + RR[2] > 0; rang++) { // Mens der ikke er regressionsmodeller som er taget hÃ¸jde for. SELECTIONSORT GO BRR
             cout << rang << ". ";
             double max = RR[0];
-            for (int i = 0; i <= 2; i++) { // Find største korrelationskoefficient
+            for (int i = 0; i <= 2; i++) { // Find stÃ¸rste korrelationskoefficient
                 if (RR[i] > max) {
                     max = RR[i];
                 }
             }
-            // Den største korrelationskoefficients regressionsmodel findes, printes og sættes lig 0
+            // Den stÃ¸rste korrelationskoefficients regressionsmodel findes, printes og sÃ¦ttes lig 0
             if (max == RR[2]) {
                 cout << "Den potentielle regressionsmodel: " << potentiel << "\t R^2: " << RR[2] << endl;
                 RR[2] = 0.0f;
@@ -451,7 +475,7 @@ int main()
 
         cout << "\nKOMMENTARER: " << endl;
         cout << "Antal punkter: " << reg.antal << endl;
-        cout << reg.DMnVM() << endl; //Definitions- og værdimængder printes
+        cout << reg.DMnVM() << endl; //Definitions- og vÃ¦rdimÃ¦ngder printes
         cout << "Stoerste x-afstand: " << reg.xAkseAfstand() << endl;
         cout << "Stoerste y-afstand: " << reg.yAkseAfstand() << endl;
         cout << "Antal outliers: " << reg.outliers() << endl;
@@ -471,40 +495,40 @@ int main()
             plt::legend();
             plt::show();
             system("pause"); //Press any key to continue...
-            system("cls"); //Ryd skærm for indlæst datasæt
+            system("cls"); //Ryd skÃ¦rm for indlÃ¦st datasÃ¦t
             break;
         case 4:
             cout << reg.linReg2x() << endl;
             system("pause"); //Press any key to continue...
-            system("cls"); //Ryd skærm for indlæst datasæt
+            system("cls"); //Ryd skÃ¦rm for indlÃ¦st datasÃ¦t
             break;
         case 3:
             cout << "Potentiel \nIndtast x-vaerdi: " << endl;
-            cin >> xVærdi;
-            cout << reg.cPot << " * " << xVærdi << " ^ " << reg.aPot << " = " << reg.potModel(xVærdi) << endl;
+            cin >> xVÃ¦rdi;
+            cout << reg.cPot << " * " << xVÃ¦rdi << " ^ " << reg.aPot << " = " << reg.potModel(xVÃ¦rdi) << endl;
             system("pause"); //Press any key to continue...
-            system("cls"); //Ryd skærm for indlæst datasæt
+            system("cls"); //Ryd skÃ¦rm for indlÃ¦st datasÃ¦t
             break;
         case 2:
             cout << "Eksponentiel \nIndtast x-vaerdi: " << endl;
-            cin >> xVærdi;
-            cout << reg.cExp << " * " << reg.aExp << " ^ " << xVærdi << " = " << reg.expModel(xVærdi) << endl;
+            cin >> xVÃ¦rdi;
+            cout << reg.cExp << " * " << reg.aExp << " ^ " << xVÃ¦rdi << " = " << reg.expModel(xVÃ¦rdi) << endl;
             system("pause"); //Press any key to continue...
-            system("cls"); //Ryd skærm for indlæst datasæt
+            system("cls"); //Ryd skÃ¦rm for indlÃ¦st datasÃ¦t
             break;
         case 1:
             cout << "Lineaer \nIndtast x-vaerdi: " << endl;
-            cin >> xVærdi;
-            cout << reg.aLin << " * " << xVærdi << " + " << reg.bLin << " = " << reg.linModelx(xVærdi, reg.aLin, reg.bLin) << endl;
+            cin >> xVÃ¦rdi;
+            cout << reg.aLin << " * " << xVÃ¦rdi << " + " << reg.bLin << " = " << reg.linModelx(xVÃ¦rdi, reg.aLin, reg.bLin) << endl;
             system("pause"); //Press any key to continue...
-            system("cls"); //Ryd skærm for indlæst datasæt
+            system("cls"); //Ryd skÃ¦rm for indlÃ¦st datasÃ¦t
             break;
         case 0:
             return 0;
         default:
             cout << "Kunne ikke finde case. Proev igen." << endl;
             system("pause"); //Press any key to continue...
-            system("cls"); //Ryd skærm for indlæst datasæt
+            system("cls"); //Ryd skÃ¦rm for indlÃ¦st datasÃ¦t
         }
     }
 };
