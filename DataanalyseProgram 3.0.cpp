@@ -6,7 +6,7 @@
 *   - x-værdi indsat i en af regressionsmodellerne          *
 *************************************************************
 *   Lavet af: Mathias Lykholt-Ustrup HTXr20                 *
-*   Opdateret: 14. juni 2023                                *
+*   Opdateret: 12. juli 2023                                *
 ************************************************************/
 
 #include <iostream>
