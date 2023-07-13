@@ -1,16 +1,16 @@
 https://stackoverflow.com/questions/66507618/running-python-matplotlibcpp-in-visual-studio-2019
 
-FREMGANGSMÅDE:
+HOW TO IMPORT matplotlibcpp.h:
 1. cmd
-	- Tjek om python er installeret [python --version]
+	- Make sure python, e.g. version 3.7, is installed [python --version]
 2. [python -m pip install matplotlib] & [python -m pip install matplotlib]
-3. Lav projekt. inkludér header file via solutions explorer [SHIFT+ALT+L]
-4. I header fil kopieres indholdet fra følgende link: https://github.com/lava/matplotlib-cpp/blob/60dcd64c8fd4766e5426f57decfb765422a1d3fe/matplotlibcpp.h#L303
-5. inkludér følgende under "include Directories:
+3. Make the project. Include header file via solutions explorer [SHIFT+ALT+L]
+4. In header fil, copy the following content: https://github.com/lava/matplotlib-cpp/blob/60dcd64c8fd4766e5426f57decfb765422a1d3fe/matplotlibcpp.h#L303
+5. Include the following under "include Directories":
 	- C:\Users\Mathias\Python37\include
 	- C:\Users\Mathias\Python37\Lib\site-packages\numpy\core\include
-6. inkludér følgende under "Library Directories":
+6. Inkludér følgende under "Library Directories":
 	- C:\Users\Mathias\Python37\libs
 7. RELEASE
-8. SANITY CHECK
+8. SANITY CHECK 
 9. GOOD TO GO MY GUY
