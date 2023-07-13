@@ -22,11 +22,17 @@ Using .txt files as input, the following can be made:
 The format of this [FILENAME].txt can be seen with the available example datasets. Compatible data can be boiled down to the following datapoints:
 
 **x**	**y**
+
 1	1
+
 1,	1
+
 1.0	1.0
+
 1.0,	1.0
+
 1,0	1,0
+
 1,0,	1,0
 
 ## How to import matplotlibcpp.h
