@@ -2,11 +2,11 @@
 Regression analysis tool (class regression) utilizing matplotlibcpp.h to graph the results.
 Using .txt files as input, the following can be made:
   - Regression models
-     A. Linear (2-part linear is an option)
-     B. Exponential
-     C. Logarithmic
-     D. Power
-     E. Second-Degree polynomium [Adjustablue in code]
+     1. Linear (2-part linear is an option)
+     2. Exponential
+     3. Logarithmic
+     4. Power
+     5. Second-Degree polynomium [Adjustablue in code]
  - Correlation coefficient(s) hereof [R^2]
  - Graph of regression models
  - Other statistical descriptors [MORE PENDING]
