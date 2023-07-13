@@ -19,6 +19,10 @@ Using .txt files as input, the following can be made:
 - matplotlibcpp.h
 - [FILENAME].txt
 
+The imported files were in my instance put under the same repository as the .cpp program.
+
+![Screenshot](Screenshot_repository.jpg)
+
 The format of this [FILENAME].txt can be seen with the available example datasets. Compatible data (in the current state of the program) can be boiled down to the following datapoints:
 
 | **x**  | **y** |
