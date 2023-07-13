@@ -132,13 +132,13 @@ public:
                 while (s >> temp) {                             // While a readable string value is present within "counter"th line
                     if (P == 0) {                               // Read x-value
                         x = temp;
+                        if (x[x.length() - 1] == ',') {         // Commas in between x- and y-values are deleted
+                            x.pop_back();
+                        }
                         for (int i = 0; i < x.length(); i++) {      // Comma is converted to a period . in x-axis
                             if (x[i] == ',') {
                                 x[i] = '.';
                             }
-                        }
-                        if (x[x.length() - 1] == ',') {         // Commas in between x- and y-values are deleted
-                            x.pop_back();
                         }
                         xAxis[counter] = stof(x);
                         if (xAxis[counter] <= 0) {          // Account for potential errors in the following regression models
@@ -471,7 +471,7 @@ public:
     }
 
     void RR_Ranking(int n) {
-        std::cout << "REGRESSIONSMODEL RANKING:" << "\n";
+        std::cout << "REGRESSION MODEL RANKING:" << "\n";
         std::cout << "0. The second-degree polynomium\t\t" << RRModel[4] << "\tR^2 = " << RR[4] << "\n\n";
 
         for (int i = 0; i < n; i++) {
@@ -678,7 +678,7 @@ int main()
                 reg.plot(std::string("Lin: ") + reg.RRModel[0] + std::string(", R^2 = ") + std::to_string(reg.RR[0]),
                     std::string("Exp: ") + reg.RRModel[1] + std::string(", R^2 = ") + std::to_string(reg.RR[1]),
                     std::string("Log: ") + reg.RRModel[2] + std::string(", R^2 = ") + std::to_string(reg.RR[2]),
-                    std::string("Pot: ") + reg.RRModel[3] + std::string(", R^2 = ") + std::to_string(reg.RR[3]),
+                    std::string("Pow: ") + reg.RRModel[3] + std::string(", R^2 = ") + std::to_string(reg.RR[3]),
                     std::string("Poly: ") + reg.RRModel[4] + std::string(", R^2 = ") + std::to_string(reg.RR[4]));
                 plt::xlabel("x");
                 plt::ylabel("y");
