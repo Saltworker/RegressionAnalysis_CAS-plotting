@@ -21,8 +21,7 @@ Using .txt files as input, the following can be made:
 
 The imported files were in my instance put under the same repository as the .cpp program.
 
-![Screenshot](Screenshot_repository.jpg)
-| **x**  | **y** |
+![Screenshot](Screenshot_repository.jpg) | **x**  | **y** |
 | --- | --- |
 | 1  | 1  |
 | 1,  | 1  |
