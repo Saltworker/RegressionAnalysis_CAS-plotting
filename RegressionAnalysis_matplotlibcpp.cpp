@@ -1,58 +1,10 @@
-/**  UPDATED July 13th 2023
- * 
- * PURPOSE:
- *
- *   Regression analysis tool (class regression) 
- *   utilizing matplotlibcpp.h to graph the results.
- *   Using .txt files as input, the following can be made:
- *   - Regression models
- *       ~ Linear (2-part linear is an option)
- *       ~ Exponential
- *       ~ Logarithmic
- *       ~ Power
- *       ~ Second-Degree polynomium [Adjustablue in code]
- *   - Correlation coefficient(s) hereof [R^2]
- *   - Graph of regression models
- *   - Other statistical descriptors [MORE PENDING]
- *
- *   TO BE DONE:
- *   1. Get scientific values of "inprecise" fixed values
- *   2. Get additional statistical descriptors
- * 
- * LICENSE:
- * 
- *   MIT License
- * 
- *   Copyright (c) 2023 Mathias Lykholt-Ustrup
- *
- *   Permission is hereby granted, free of charge, to any person obtaining a copy
- *   of this software and associated documentation files (the "Software"), to deal
- *   in the Software without restriction, including without limitation the rights
- *   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- *   copies of the Software, and to permit persons to whom the Software is
- *   furnished to do so, subject to the following conditions:
-
- *   The above copyright notice and this permission notice shall be included in all
- *   copies or substantial portions of the Software.
-
- *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- *   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- *   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- *   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- *   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- *   SOFTWARE.
- * 
- *   @Author Saltworker
- */
-
 #include <iostream>
 #include <cstdlib>      // Get commands // system("pause"); // and // system("cls"); //
 #include <fstream>      // Read .txt files
 #include <sstream>      // String manipulation
 
-#include <filesystem>   // Utilized to find repository in use. NOTE: Edit .cpp file name alongside (l. 626) to prevent errors
-#include <sys/stat.h>   // Utilized for file search function
+#include <filesystem>   // Utilized to find repository in use
+#include <sys/stat.h>   // Utilized for file search function. NOTE: Edit .cpp file name alongside (l. 578) to prevent errors
 namespace fs = std::filesystem;
 
 #include "matplotlibcpp.h"
@@ -164,7 +116,7 @@ public:
                 counter++;                              // count up
                 if (counter > 1000) {                   // Account for datapoint limit
                     std::cout << "Attention: Max number of datapoints set to " << counter <<
-                                 "... Consider changing that under .cpp (l. 64) & (l. 165) " << "\n";
+                                 "... Consider changing that under .cpp (l. 16) & (l. 117) " << "\n";
                     break;                              // Prevent data overflow. Make sure no more than the set datapoint limit is reached
                 }
                 std::cout << "Datapoint nr." << counter << "\t[" << x << ";" << y << "]\n";
@@ -298,7 +250,7 @@ public:
     }
 
     void secondDegreePolyReg() {    // Made thanks to: https://www.bragitoff.com/2015/09/c-program-for-polynomial-fit-least-squares/
-        const int n = 2;            // The degree of the polynomium. Adjust alongside (l. 106), (l. 344), (l. 505) and (l. 697)
+        const int n = 2;            // The degree of the polynomium. Adjust alongside (l. 58), (l. 296), (l. 457) and (l. 649)
 
         double X[2 * n + 1];
         for (int i = 0; i < 2 * n + 1; i++) {
@@ -623,7 +575,7 @@ public:
 int main()
 {
     std::string filename;
-    struct stat sb; // (l. 55)
+    struct stat sb; // (l. 7)
 
     // Find the absolute path of the following file/program //
     std::filesystem::path filelocation("RegressionAnalysis_matplotlib.cpp");
