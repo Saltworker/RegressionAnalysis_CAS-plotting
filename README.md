@@ -21,7 +21,11 @@ Using .txt files as input, the following can be made:
 
 The imported files were in my instance put under the same repository as the .cpp program.
 
-![Screenshot](Screenshot_repository.jpg) | **x**  | **y** |
+![Screenshot](Screenshot_repository.jpg) 
+
+The format of this [FILENAME].txt can be seen with the available example datasets. Compatible data (in the current state of the program) can be boiled down to the following datapoints:
+
+| **x**  | **y** |
 | --- | --- |
 | 1  | 1  |
 | 1,  | 1  |
@@ -29,10 +33,6 @@ The imported files were in my instance put under the same repository as the .cpp
 | 1.0,  | 1.0  |
 | 1,0  | 1,0  |
 | 1,0,  | 1,0  |
-
-The format of this [FILENAME].txt can be seen with the available example datasets. Compatible data (in the current state of the program) can be boiled down to the following datapoints:
-
-
 
 *NOTE: Do not forget to put a spacebar in between the x- and y-axis for each line in [FILENAME].txt* 
 
