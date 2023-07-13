@@ -11,15 +11,23 @@ Using .txt files as input, the following can be made:
  - Graph of regression models
  - Other statistical descriptors [MORE PENDING]
 
-**TO BE DONE:**
+**PENDING:**
 1. Get scientific values of "inprecise" fixed values
 2. Get additional statistical descriptors
 
-RegressionAnalysis_matplotlibcpp.cpp needs to import the following to function:
+**RegressionAnalysis_matplotlibcpp.cpp imports the following files:**
 - matplotlibcpp.h
 - [FILENAME].txt
 
-The format of this [FILENAME].txt can be seen with the available example datasets
+The format of this [FILENAME].txt can be seen with the available example datasets. Compatible data can be boiled down to the following datapoints:
+
+**x**	**y**
+1	1
+1,	1
+1.0	1.0
+1.0,	1.0
+1,0	1,0
+1,0,	1,0
 
 ## How to import matplotlibcpp.h
 This link should do the trick: https://stackoverflow.com/questions/66507618/running-python-matplotlibcpp-in-visual-studio-2019
