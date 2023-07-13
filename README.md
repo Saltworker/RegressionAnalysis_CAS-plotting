@@ -14,6 +14,7 @@ Using .txt files as input, the following can be made:
 RegressionAnalysis_matplotlibcpp.cpp needs to import the following:
 - matplotlibcpp.h
 - [FILENAME].txt
+
 The format of this [FILENAME].txt can be seen with the available example datasets
 ## TO BE DONE:
 1. Get scientific values of "inprecise" fixed values
