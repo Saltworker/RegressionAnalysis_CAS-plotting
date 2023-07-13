@@ -1,4 +1,9 @@
 ![Screenshot](Screenshots/Screenshot_testresult.jpg) 
+
+**PENDING:**
+1. Get scientific values of "inprecise" fixed values
+2. Get additional statistical descriptors
+
 # RegressionAnalysis_matplotlibcpp
 Regression analysis tool (class regression) utilizing matplotlibcpp.h to graph the results.
 Using .txt files as input, the following can be made:
@@ -11,10 +16,6 @@ Using .txt files as input, the following can be made:
  - Correlation coefficient(s) hereof [R^2]
  - Graph of regression models
  - Other statistical descriptors [MORE PENDING]
-
-**PENDING:**
-1. Get scientific values of "inprecise" fixed values
-2. Get additional statistical descriptors
 
 **RegressionAnalysis_matplotlibcpp.cpp imports the following files:**
 - matplotlibcpp.h
