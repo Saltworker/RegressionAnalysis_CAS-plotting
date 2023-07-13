@@ -25,6 +25,15 @@ The format of this [FILENAME].txt can be seen with the available example dataset
 
 **y** 1 1 1.0 1.0 1,0 1,0
 
+| **x**  | **y** |
+| ------------- | ------------- |
+| 1  | 1  |
+| 1,  | 1  |
+| 1.0  | 1.0  |
+| 1.0,  | 1.0  |
+| 1,0  | 1,0  |
+| 1,0,  | 1,0  |
+
 ## How to import matplotlibcpp.h
 This link should do the trick: https://stackoverflow.com/questions/66507618/running-python-matplotlibcpp-in-visual-studio-2019
 
