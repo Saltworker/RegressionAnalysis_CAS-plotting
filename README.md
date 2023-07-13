@@ -17,8 +17,8 @@ Using .txt files as input, the following can be made:
 This link should do the trick: https://stackoverflow.com/questions/66507618/running-python-matplotlibcpp-in-visual-studio-2019
 
 To sum up the proces of importing matplotlibcpp, here is a checklist:
-1. Open command prompt. Enter the following commands:
-   - python --version\t (Check if python is installed. Recommended python versions are 3.7 - 3.9)
+1. Open command prompt. Check if python is installed (python versions 3.7 - 3.9 are recommended. Newer versions of python will cuase unwanted errors) by entering the first of the following commands:
+   - python --version
    - python -m pip install matplotlib
    - python -m pip install numpy
 2. Create project (I used visual studio 2022)
