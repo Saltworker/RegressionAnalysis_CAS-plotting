@@ -6,7 +6,7 @@ Using .txt files as input, the following can be made:
      2. Exponential
      3. Logarithmic
      4. Power
-     5. Second-Degree polynomium [Adjustablue in code]
+     5. Second-degree polynomium [degree of polynomium adjustablue in code]
  - Correlation coefficient(s) hereof [R^2]
  - Graph of regression models
  - Other statistical descriptors [MORE PENDING]
