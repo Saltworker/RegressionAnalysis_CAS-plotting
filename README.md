@@ -34,7 +34,7 @@ The format of this [FILENAME].txt can be seen with the available example dataset
 | 1,0  | 1,0  |
 | 1,0,  | 1,0  |
 
-*NOTE: Do not forget to put a spacebar in between the x- and y-axis for each line in [FILENAME].txt* 
+*NOTE: Do not forget to enter SPACEBAR or TAB in between the x- and y-axis for each line in [FILENAME].txt* 
 
 ## How to import matplotlibcpp.h
 This link should do the trick: https://stackoverflow.com/questions/66507618/running-python-matplotlibcpp-in-visual-studio-2019
