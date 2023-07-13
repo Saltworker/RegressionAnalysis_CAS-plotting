@@ -13,3 +13,5 @@ Using .txt files as input, the following can be made:
 ## TO BE DONE:
 1. Get scientific values of "inprecise" fixed values
 2. Get additional statistical descriptors
+## How to import matplotlibcpp.h
+This link should do the trick: https://stackoverflow.com/questions/66507618/running-python-matplotlibcpp-in-visual-studio-2019
