@@ -1,3 +1,4 @@
+![Screenshot](Screenshots/Screenshot_testresult.jpg) 
 # RegressionAnalysis_matplotlibcpp
 Regression analysis tool (class regression) utilizing matplotlibcpp.h to graph the results.
 Using .txt files as input, the following can be made:
