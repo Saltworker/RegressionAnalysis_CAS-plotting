@@ -57,8 +57,8 @@ public:
     // NOTE: Second-degree polynomium DOES NOT UNDERGO RANKING             //
     double a[3];        // Second-degree polynomium values: a[2] = second-degree term ; a[1] = Slope ; a[0] = Intercept
 
-    std::string RRModel[5];                             // Obtained like so => { linReg(), expReg(), logReg(), powReg(), polyReg() };
     double RR[5] = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };    // Obtained like so => { linRR(), expRR(), logRR(), powRR(), polyRR() };
+    int RRIndex[5] = { 0, 1, 2, 3, 4 };                 // Exists solely for ranking purposes
 
     /************************************************************
     *   The constructor does the following:                     *
@@ -148,7 +148,7 @@ public:
         }
         for (int i = 0; i < counter; i++) {         // Set linear regression model up for plotting
             x_lin.push_back(xAxis[i]);
-            y_lin.push_back(linModelx(xAxis[i], aLin, bLin));
+            y_lin.push_back(linModel(xAxis[i]));
         }
 
         if (expFejl == false) {
@@ -198,8 +198,6 @@ public:
         }
         aLin = (counter * sumXY - sumX * sumY) / (counter * sumXX - sumX * sumX);
         bLin = (sumXX * sumY - sumX * sumXY) / (counter * sumXX - sumX * sumX);
-
-        RRModel[0] = "y = " + std::to_string(aLin) + "x + " + std::to_string(bLin);
     }
 
     void expReg() {
@@ -213,8 +211,6 @@ public:
         aExp = (counter * sumXY - sumX * sumY) / (counter * sumXX - sumX * sumX);
         double bExp = (sumXX * sumY - sumX * sumXY) / (counter * sumXX - sumX * sumX);
         cExp = pow(e, bExp); // Back conversion from natural logarithm ln [Yep... log() acutally computes the natural logarithm]
-
-        RRModel[1] = "y = " + std::to_string(cExp) + " e ^ " + std::to_string(aExp) + "x";
     }
 
     void logReg() {
@@ -227,11 +223,6 @@ public:
         }
         aLog = (counter * sumXY - sumX * sumY) / (counter * sumXX - sumX * sumX);
         bLog = (sumXX * sumY - sumX * sumXY) / (counter * sumXX - sumX * sumX);
-
-        if (bLog >= 0) 
-            RRModel[2] = "y = " + std::to_string(aLog) + " ln(x) +" + std::to_string(bLog);
-        else
-            RRModel[2] = "y = " + std::to_string(aLog) + " ln(x) " + std::to_string(bLog);
     }
    
     void powReg() {
@@ -245,8 +236,6 @@ public:
         aPow = (counter * sumXY - sumX * sumY) / (counter * sumXX - sumX * sumX);
         double bPot = (sumXX * sumY - sumX * sumXY) / (counter * sumXX - sumX * sumX);
         cPow = pow(10, bPot); // Back conversion from log10
-
-        RRModel[3] = "y = " + std::to_string(cPow) + " x ^ " + std::to_string(aPow);
     }
 
     void secondDegreePolyReg() {    // Made thanks to: https://www.bragitoff.com/2015/09/c-program-for-polynomial-fit-least-squares/
@@ -295,12 +284,9 @@ public:
                     a[i] = a[i] - B[i][j] * a[j];
             a[i] = a[i] / B[i][i];
         }
-
-        RRModel[4] = "y = " + std::to_string(a[2]) + "x^2 + " + std::to_string(a[1]) + "x + " + std::to_string(a[0]);
     }
 
     void models() { // Calculate all (possible) regression models
-
         linReg();
         secondDegreePolyReg();
         if (expFejl == false)
@@ -320,7 +306,7 @@ public:
         sumY = sumY / counter;
 
         for (int i = 0; i < counter; i++) {
-            SSR = SSR + pow(yAxis[i] - linModelx(xAxis[i], aLin, bLin), 2);
+            SSR = SSR + pow(yAxis[i] - linModel(xAxis[i]), 2);
             SST = SST + pow(yAxis[i] - sumY, 2);
         }
 
@@ -405,7 +391,7 @@ public:
             if (max_index != i) {
                 std::swap(RR[max_index], RR[i]);
                 std::swap(RRName[max_index], RRName[i]);
-                std::swap(RRModel[max_index], RRModel[i]);
+                std::swap(RRIndex[max_index], RRIndex[i]);
             }
         }
     }
@@ -422,13 +408,42 @@ public:
         RR_selectionSort(4);    // Second-degree polynomium DOES NOT UNDERGO RANKING, thus the parameter 4 is used
     }
 
+
+    std::string RRModel_scientific(int index, bool scientific) { // Regression models using either scientific or fixed (normal) notation
+        if (scientific == true) {
+            std::cout << std::scientific; // Make sure only the following is printed using scientific notation ...
+        }
+        else
+            std::cout << std::fixed;
+        switch (index) {
+        case 4:
+            std::cout << "y=" << a[2] << "x^2+" << a[1] << "x+" << a[0]; // Polynomial regression model is cramped to make up for the size of the formula
+            break;
+        case 3:
+            std::cout << "y = " << cPow << " x ^ " << aPow;
+            break;
+        case 2:
+            std::cout << "y = " << bLog << " + " << aLog << " ln(x)";
+            break;
+        case 1:
+            std::cout << "y = " << cExp << " e ^ " << aExp << " x";
+            break;
+        case 0:
+            std::cout << "y = " << aLin << " x + " << bLin;
+            break;
+        }
+        std::cout << std::fixed; // ... like this
+        return " ";
+    }
+
     void RR_Ranking(int n) {
         std::cout << "REGRESSION MODEL RANKING:" << "\n";
-        std::cout << "0. The second-degree polynomium\t\t" << RRModel[4] << "\tR^2 = " << RR[4] << "\n\n";
+        std::cout << "0. The second-degree polynomium\t\t" << RRModel_scientific(RRIndex[4], true) << "\tR^2 = " << RR[4] << "\n{ " << RRModel_scientific(RRIndex[4], false) << "}\n\n";
 
         for (int i = 0; i < n; i++) {
             if (RR[i] != 0.0f)
-                std::cout << i + 1 << ". The " << RRName[i] << " regression model\t" << RRModel[i] << "\tR^2 = " << RR[i] << "\n";
+                std::cout << i + 1 << ". The " << RRName[i] << " regression model\t" << RRModel_scientific(RRIndex[i], true)
+                << "\tR^2 = " << RR[i] << "\n{ " << RRModel_scientific(RRIndex[i], false) << "}\n\n";
         }
 
         // Check if certain regression models are - can be - used //
@@ -440,8 +455,8 @@ public:
             std::cout << "WARNING: The power regressionsmodel cannot be made (x- or y-axis contains non-postive value)\n";
     }
 
-    double linModelx(double xValue, double a, double b) { // NOTE: The function accounts for 2-part linear regression
-        return a * xValue + b;
+    double linModel(double xValue) {
+        return aLin * xValue + bLin;
     }
 
     double expModel(double xValue) {
@@ -505,59 +520,6 @@ public:
         return outlier_count;
     }
 
-    std::string linReg2x() { // find 2-part linear regression model and R^2
-        if (counter < 6) {
-            std::cout << "ERROR: Dataset must have at least 6 points to execute 2-part linear regression" << "\n";
-            exit(0);
-        }
-        
-        double aLin1;
-        double bLin1;
-        double aLin2;
-        double bLin2;
-
-        int antal_halv = counter / 2;
-        // Linear regression model of the first half of the dataset //
-        reset();
-        for (int i = 0; i < antal_halv; i++) {
-            sumX = sumX + xAxis[i];
-            sumXX = sumXX + xAxis[i] * xAxis[i];
-            sumY = sumY + yAxis[i];
-            sumXY = sumXY + xAxis[i] * yAxis[i];
-        }
-        aLin1 = (antal_halv * sumXY - sumX * sumY) / (antal_halv * sumXX - sumX * sumX);
-        bLin1 = (sumXX * sumY - sumX * sumXY) / (antal_halv * sumXX - sumX * sumX);
-
-        sumY = sumY / antal_halv;
-
-        for (int i = 0; i < antal_halv; i++) {
-            SSR = SSR + pow(yAxis[i] - linModelx(xAxis[i], aLin1, bLin1), 2);
-            SST = SST + pow(yAxis[i] - sumY, 2);
-        }
-        double RR_1 = 1 - SSR / SST;
-
-        // Linear regression model of the second half of the dataset //
-        reset();
-        for (int i = antal_halv; i < counter; i++) {
-            sumX = sumX + xAxis[i];
-            sumXX = sumXX + xAxis[i] * xAxis[i];
-            sumY = sumY + yAxis[i];
-            sumXY = sumXY + xAxis[i] * yAxis[i];
-        }
-        aLin2 = (round((counter + 1) / 2) * sumXY - sumX * sumY) / (round((counter + 1) / 2) * sumXX - sumX * sumX);
-        bLin2 = (sumXX * sumY - sumX * sumXY) / (round((counter + 1) / 2) * sumXX - sumX * sumX);
-
-        sumY = sumY / round((counter + 1) / 2);
-        for (int i = antal_halv; i < counter; i++) {
-            SSR = SSR + pow(yAxis[i] - linModelx(xAxis[i], aLin2, bLin2), 2);
-            SST = SST + pow(yAxis[i] - sumY, 2);
-        }
-        double RR_2 = 1 - SSR / SST;
-
-        return "1) y_1 = " + std::to_string(aLin1) + "x + " + std::to_string(bLin1) + "\tR^2 = " + std::to_string(RR_1) +
-            "\n2) y_2 = " + std::to_string(aLin2) + "x + " + std::to_string(bLin2) + "\tR^2 = " + std::to_string(RR_2);
-    }
-
     void plot(std::string lin, std::string exp, std::string log, std::string pot, std::string poly) {
 
         plt::plot(x, y, "bD");
@@ -604,20 +566,14 @@ int main()
         do {
             reg.RR_Ranking(4);
 
-            std::cout << "\nSTATISTICAL DESCRIPTORS:\n";
-            std::cout << "Number of datapoints: " << reg.counter << "\n";
-            reg.DMnVM(); // Print domain and range
-            std::cout << "Greatest x-distance:  " << reg.xAxisDistance() << "\n";
-            std::cout << "Greatest y-distance:  " << reg.yAxisDistance() << "\n";
-            std::cout << "Outlier count: " << std::setw(8) << reg.outliers() << "\n";
-
             std::cout << "\nTYPE: \n\"1\" to use linear regression model\n";
             std::cout << "\"2\" to use exponential regression model\n";
             std::cout << "\"3\" to use logarithmic regression model\n";
             std::cout << "\"4\" to use power regression model\n";
             std::cout << "\"5\" to use second-degree polynomial regression model\n";
-            std::cout << "\"6\" to use 2-part linear regression model\n";
+            std::cout << "\"6\" to see statistical descriptors\n";
             std::cout << "\"7\" to see graph of regressionsmodels\n";
+            std::cout << "\"8\" to adjust floating point numbers\n";
             std::cout << "\"9\" to select new dataset\n";
             std::cout << "\"0\" to end program\n";
             std::cin >> input;
@@ -626,12 +582,18 @@ int main()
                 reg.~regression();      // User-defined destructor to release memory when selecting new dataset
                 system("cls");      // Clear screen
                 break;
+            case 8:
+                std::cout << "Enter amount of floating point numbers:\n";
+                std::cin >> xValue;
+                std::cout.precision(xValue); // Set amount of floating point numbers. Default is 6
+                system("cls");      // Clear screen
+                break;
             case 7: //https://matplotlib-cpp.readthedocs.io/en/latest/docs.html
-                reg.plot(std::string("Lin: ") + reg.RRModel[0] + std::string(", R^2 = ") + std::to_string(reg.RR[0]),
-                    std::string("Exp: ") + reg.RRModel[1] + std::string(", R^2 = ") + std::to_string(reg.RR[1]),
-                    std::string("Log: ") + reg.RRModel[2] + std::string(", R^2 = ") + std::to_string(reg.RR[2]),
-                    std::string("Pow: ") + reg.RRModel[3] + std::string(", R^2 = ") + std::to_string(reg.RR[3]),
-                    std::string("Poly: ") + reg.RRModel[4] + std::string(", R^2 = ") + std::to_string(reg.RR[4]));
+                reg.plot(std::string("Lin: ") + "y = " + std::to_string(reg.aLin) + " x + " + std::to_string(reg.bLin) + std::string(", R^2 = ") + std::to_string(reg.RR[0]),
+                    std::string("Exp: ") + "y = " + std::to_string(reg.cExp) + " e ^ " + std::to_string(reg.aExp) + "x" + std::string(", R^2 = ") + std::to_string(reg.RR[1]),
+                    std::string("Log: ") + "y = " + std::to_string(reg.bLog) + " + " + std::to_string(reg.aLog) + " ln(x)" + std::string(", R^2 = ") + std::to_string(reg.RR[2]),
+                    std::string("Pow: ") + "y = " + std::to_string(reg.cPow) + " x ^ " + std::to_string(reg.aPow) + std::string(", R^2 = ") + std::to_string(reg.RR[3]),
+                    std::string("Poly: ") + "y = " + std::to_string(reg.a[2]) + "x^2 + " + std::to_string(reg.a[1]) + "x + " + std::to_string(reg.a[0]) + std::string(", R^2 = ") + std::to_string(reg.RR[4]));
                 plt::xlabel("x");
                 plt::ylabel("y");
                 plt::title(filename);
@@ -641,7 +603,12 @@ int main()
                 system("cls");      // Clear screen
                 break;
             case 6:
-                std::cout << reg.linReg2x() << "\n";
+                std::cout << "STATISTICAL DESCRIPTORS:\n";
+                std::cout << "Number of datapoints: " << reg.counter << "\n";
+                reg.DMnVM(); // Print domain and range
+                std::cout << "Greatest x-distance:  " << reg.xAxisDistance() << "\n";
+                std::cout << "Greatest y-distance:  " << reg.yAxisDistance() << "\n";
+                std::cout << "Outlier count: " << std::setw(8) << reg.outliers() << "\n";
                 system("pause");    // Press any key to continue...
                 system("cls");      // Clear screen
                 break;
@@ -676,7 +643,7 @@ int main()
             case 1:
                 std::cout << "Linear \nType in x-value:\n";
                 std::cin >> xValue;
-                std::cout << reg.aLin << " * " << xValue << " + " << reg.bLin << " = " << reg.linModelx(xValue, reg.aLin, reg.bLin) << "\n";
+                std::cout << reg.aLin << " * " << xValue << " + " << reg.bLin << " = " << reg.linModel(xValue) << "\n";
                 system("pause");    // Press any key to continue...
                 system("cls");      // Clear screen
                 break;
