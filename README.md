@@ -24,6 +24,10 @@ Using .txt files as input, the following can be made:
 - matplotlibcpp.h
 - [FILENAME].txt
 
+**RegressionAnalysis_matplotlibcpp.exe imports the following files:**
+- python310.dll
+- [FILENAME].txt
+
 ![Screenshot](Screenshots/Screenshot_1.0.jpg) 
 
 The format of this [FILENAME].txt can be seen with the available example datasets. Compatible data (in the current state of the program) can be boiled down to the following datapoints:
