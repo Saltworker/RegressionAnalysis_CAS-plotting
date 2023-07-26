@@ -1,28 +1,30 @@
 ![Screenshot](Screenshots/Screenshot_test.jpg) 
 
-**PENDING:**
-- Get additional statistical descriptors
+**NOTE: Graph is simply used for testing the results of the regression model & coefficient of determinatino R^2**
 
 # RegressionAnalysis_matplotlibcpp
 Regression analysis tool (class regression) utilizing matplotlibcpp.h to graph the results.
 Using .txt files as input, the following can be made:
-  - Regression models
+  - Regression model(s) and coefficient(s) of determination R^2
      1. Linear
      2. Exponential
      3. Logarithmic
      4. Power
      5. Second-degree polynomium [degree of polynomium adjustablue in code]
- - Correlation coefficient(s) hereof [R^2]
- - Graph of regression models
- - Other statistical descriptors [MORE PENDING]
+ - Plotting
+    1. Regression models
+    2. Residual plot hereof
+ - Other statistical descriptors (x- and y-axis respectively
+    1. Domain & range; quarters of dataset
+    2. Average/mean
+    3. Variance, standard deviation, sample standard deviation
+ - Correlation coefficient r of ONLY linear regression model
 
 **RegressionAnalysis_matplotlibcpp.cpp imports the following files:**
 - matplotlibcpp.h
 - [FILENAME].txt
 
-The imported files were in my instance put under the same repository as the .cpp program.
-
-![Screenshot](Screenshots/Screenshot_repository.jpg) 
+![Screenshot](Screenshots/Screenshot_1.0.jpg) 
 
 The format of this [FILENAME].txt can be seen with the available example datasets. Compatible data (in the current state of the program) can be boiled down to the following datapoints:
 
