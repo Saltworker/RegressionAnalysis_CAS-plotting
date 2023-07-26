@@ -45,9 +45,9 @@ The format of this [FILENAME].txt can be seen with the available example dataset
 
 *NOTE: Do not forget to enter SPACEBAR or TAB in between the x- and y-axis for each line in [FILENAME].txt* 
 ## PRO TIP regarding datasets from excel, geogebra, graph, etc
-1. CTRL + C dataset
-2. Make/put .txt file in shown repository
-3. CTRL + V
+1. DATASET -> CTRL + C
+2. REPOSITORY -> Make/insert .txt file
+3. .txt file -> CTRL + V
 
 You're welcome
 ## How to import matplotlibcpp.h
