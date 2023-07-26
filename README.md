@@ -2,7 +2,7 @@
 
 ![Screenshot](Screenshots/Screenshot_test.jpg) 
 
-**NOTE: The program Graph is simply used for testing the results of the regression model & coefficient of determinatino R^2**
+**NOTE: The program Graph is simply used for testing the results of the regression model & coefficient of determination R^2**
 
 ## RegressionAnalysis_matplotlibcpp
 Regression analysis tool (class regression) utilizing matplotlibcpp.h to graph the results.
