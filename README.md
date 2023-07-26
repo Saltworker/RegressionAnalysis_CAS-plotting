@@ -1,4 +1,4 @@
-![Screenshot](Screenshots/Screenshot_testresult.jpg) 
+![Screenshot](Screenshots/Screenshot_test.jpg) 
 
 **PENDING:**
 - Get additional statistical descriptors
