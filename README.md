@@ -1,10 +1,10 @@
-# Imagine regression analysis using Excel, Geogebra, Graph, etc. but faster (and more user-friendly)
+# Imagine regression analysis using Excel, Geogebra, Graph, etc. except it gets done much faster
 
 ![Screenshot](Screenshots/Screenshot_test.jpg) 
 
 **NOTE: The program Graph (c) is simply used for testing the results of the regression model & coefficient of determinatino R^2**
 
-# RegressionAnalysis_matplotlibcpp
+## RegressionAnalysis_matplotlibcpp
 Regression analysis tool (class regression) utilizing matplotlibcpp.h to graph the results.
 Using .txt files as input, the following can be made:
   - Regression model(s) and coefficient(s) of determination R^2
@@ -44,7 +44,11 @@ The format of this [FILENAME].txt can be seen with the available example dataset
 | 1,0,  | 1,0  |
 
 *NOTE: Do not forget to enter SPACEBAR or TAB in between the x- and y-axis for each line in [FILENAME].txt* 
-
+## PRO TIP regarding datasets from excel, geogebra, graph, etc
+1. CTRL + C dataset
+2. Make/put .txt file in shown repository
+3. CTRL + V
+You're welcome
 ## How to import matplotlibcpp.h
 This link should do the trick: https://stackoverflow.com/questions/66507618/running-python-matplotlibcpp-in-visual-studio-2019
 
