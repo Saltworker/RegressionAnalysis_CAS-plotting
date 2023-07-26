@@ -1,6 +1,8 @@
+# Imagine a version of Excel, Geogebra, Graph, etc. that gets the job done faster
+
 ![Screenshot](Screenshots/Screenshot_test.jpg) 
 
-**NOTE: The app Graph (c) is simply used for testing the results of the regression model & coefficient of determinatino R^2**
+**NOTE: The program Graph (c) is simply used for testing the results of the regression model & coefficient of determinatino R^2**
 
 # RegressionAnalysis_matplotlibcpp
 Regression analysis tool (class regression) utilizing matplotlibcpp.h to graph the results.
