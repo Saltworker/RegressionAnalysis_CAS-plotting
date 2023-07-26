@@ -1,4 +1,4 @@
-# Imagine a version of Excel, Geogebra, Graph, etc. that gets the job done faster
+# Imagine a version of Excel, Geogebra, Graph, etc. that makes regression analysis even faster (and more user-friendly) to do
 
 ![Screenshot](Screenshots/Screenshot_test.jpg) 
 
