@@ -1,5 +1,5 @@
 # Imagine regression analysis using Excel, Geogebra, Graph, etc. except it gets done much faster (sciplot-edition)
-
++ [Getting started](https://github.com/Saltworker/RegressionAnalysis_CAS-plotting#to-run-regressionanalysis_sciplotcpp)
 ![Screenshot](Screenshots/Screenshot_1.0_test_sciplot-edition.jpg) 
 
 **NOTE: The program Graph is simply used for testing the results of the regression model & coefficient of determination R^2**
