@@ -1,6 +1,6 @@
 # Imagine regression analysis using Excel, Geogebra, Graph, etc. except it gets done much faster (sciplot-edition)
 
-![Screenshot](Screenshots/Screenshot_1.0-test_sciplot-edition.jpg) 
+![Screenshot](Screenshots/Screenshot_1.0_test_sciplot-edition.jpg) 
 
 **NOTE: The program Graph is simply used for testing the results of the regression model & coefficient of determination R^2**
 
