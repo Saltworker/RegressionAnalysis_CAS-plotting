@@ -4,9 +4,8 @@
 
 **NOTE: The program Graph is simply used for testing the results of the regression model & coefficient of determination R^2**
 
-## RegressionAnalysis_matplotlibcpp
-Regression analysis tool (class regression) utilizing matplotlibcpp.h to graph the results.
-Using .txt files as input, the following can be made:
+## RegressionAnalysis_sciplot
+Regression analysis program utilizing sciplot to plot the results. Using .txt files as input, the following can be made:
   - Regression model(s) and coefficient(s) of determination R^2
      1. Linear
      2. Exponential
@@ -22,12 +21,8 @@ Using .txt files as input, the following can be made:
     3. Variance, standard deviation, sample standard deviation
  - Correlation coefficient r of ONLY linear regression model
 
-**RegressionAnalysis_matplotlibcpp.cpp imports the following files:**
-- matplotlibcpp.h
-- [FILENAME].txt
-
-**RegressionAnalysis_matplotlibcpp.exe imports the following files:**
-- python310.dll
+**RegressionAnalysis_sciplot.cpp imports the following files:**
+- ...sciplot/sciplot.h
 - [FILENAME].txt
 
 ![Screenshot](Screenshots/Screenshot_1.0.jpg) 
@@ -50,21 +45,13 @@ The format of this [FILENAME].txt can be seen with the available example dataset
 3. .txt file -> CTRL + V
 
 You're welcome
-## How to import matplotlibcpp.h
-This link should do the trick: https://stackoverflow.com/questions/66507618/running-python-matplotlibcpp-in-visual-studio-2019
+## How to import sciplot to you project:
+1. Install gnuplot: https://sourceforge.net/projects/gnuplot/
+   - Make sure to set {...\gnuplot\bin} as an environment variabel
+2. Install sciplot https://github.com/sciplot/sciplot
 
-To sum up the proces of importing matplotlibcpp, here is a checklist:
-1. Open command prompt. Check if python is installed (python versions 3.7 - 3.9 are recommended. Newer versions of python will cause unwanted errors) by entering the first of the following commands:
-   - python --version
-   - python -m pip install matplotlib
-   - python -m pip install numpy
-2. Create project (I used visual studio 2022)
-3. Download matplotlibcpp.h: https://github.com/lava/matplotlib-cpp/blob/60dcd64c8fd4766e5426f57decfb765422a1d3fe/matplotlibcpp.h#L303
-   - SANITY CHECK: Make sure to get rid of  (ll. 351-356) inside of matplotlibcpp.h 
-4. Move matplotlibcpp.h to project repository. Alternatively include header file via solutions explorer [SHIFT+ALT+L]
-5. From the used python repository, include the following under "include Directories":
-	- ...\Python37\include
-	- ...Python37\Lib\site-packages\numpy\core\include
-6. From the used python repository, include the following under "Library Directories":
-	- ...\Python37\libs
-7. Don't forget to set Solution Configurations to RELEASE
+At this point, [...]
+
+3. include the following under "include Directories": {...\sciplot}
+
+After that, you should be good to run the .cpp file
