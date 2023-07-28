@@ -1,4 +1,4 @@
-# Imagine regression analysis using Excel, Geogebra, Graph, etc. except it gets done much faster
+# Imagine regression analysis using Excel, Geogebra, Graph, etc. except it gets done much faster (sciplot-edition)
 
 ![Screenshot](Screenshots/Screenshot_test.jpg) 
 
@@ -22,7 +22,7 @@ Regression analysis program utilizing sciplot to plot the results. Using .txt fi
  - Correlation coefficient r of ONLY linear regression model
 
 **RegressionAnalysis_sciplot.cpp imports the following files:**
-- ...sciplot/sciplot.h
+- ...sciplot-master/sciplot/sciplot.h
 - [FILENAME].txt
 
 ![Screenshot](Screenshots/Screenshot_1.0.jpg) 
@@ -45,13 +45,14 @@ The format of this [FILENAME].txt can be seen with the available example dataset
 3. .txt file -> CTRL + V
 
 You're welcome
-## How to import sciplot to you project:
-1. Install gnuplot: https://sourceforge.net/projects/gnuplot/
-   - Make sure to set {...\gnuplot\bin} as an environment variabel
-2. Install sciplot https://github.com/sciplot/sciplot
+## To run regressionAnalysis_sciplot.cpp:
+### Install gnuplot
+Once this is installed, you'll be able to run the release "1.0 Sciplot-edition"
 
-At this point, [...]
+https://sourceforge.net/projects/gnuplot/
 
-3. include the following under "include Directories": {...\sciplot}
+**NOTE: Make sure to set {...\gnuplot\bin} as an environment variable**
+### Install sciplot
+https://github.com/sciplot/sciplot
 
-After that, you should be good to run the .cpp file
+Include the downloaded "sciplot-master" following under "include Directories": {...\sciplot-master}
