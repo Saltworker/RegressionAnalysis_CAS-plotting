@@ -1,4 +1,5 @@
 # Imagine regression analysis using Excel, Geogebra, Graph, etc. except it gets done much faster (matplotlibcpp-edition)
++ [Get started](https://github.com/Saltworker/RegressionAnalysis_CAS-plotting#to-run-regressionanalysis_sciplotcpp)
 
 ![Screenshot](Screenshots/Screenshot_test.jpg) 
 
