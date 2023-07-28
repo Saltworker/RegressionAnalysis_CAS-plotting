@@ -1,4 +1,5 @@
 # Imagine regression analysis using Excel, Geogebra, Graph, etc. except it gets done much faster (sciplot-edition)
++ [Get started](https://github.com/Saltworker/RegressionAnalysis_CAS-plotting/tree/RegressionAnalysis_sciplot#to-run-regressionanalysis_sciplotcpp)
 
 ![Screenshot](Screenshots/Screenshot_1.0-test_sciplot-edition.jpg) 
 
