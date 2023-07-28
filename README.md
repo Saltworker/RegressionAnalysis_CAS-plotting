@@ -1,4 +1,4 @@
-# Imagine regression analysis using Excel, Geogebra, Graph, etc. except it gets done much faster
+# Imagine regression analysis using Excel, Geogebra, Graph, etc. except it gets done much faster (matplotlibcpp-edition)
 
 ![Screenshot](Screenshots/Screenshot_test.jpg) 
 
