@@ -5,6 +5,8 @@
 **NOTE: The program Graph is simply used for testing the results of the regression model & coefficient of determination R^2**
 
 ## RegressionAnalysis_sciplot
++ [Getting Started](##To_run_regressionAnalysis_sciplot.cpp:)
+  
 Regression analysis program utilizing sciplot to plot the results. Using .txt files as input, the following can be made:
   - Regression model(s) and coefficient(s) of determination R^2
      1. Linear
