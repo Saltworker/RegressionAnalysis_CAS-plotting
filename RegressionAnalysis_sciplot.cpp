@@ -7,13 +7,13 @@
 #include <sys/stat.h>   // Utilized for file search function. NOTE: Edit .cpp file name alongside (l. 578) to prevent errors
 namespace fs = std::filesystem;
 
-#include "matplotlibcpp.h"
-namespace plt = matplotlibcpp;
+#include <sciplot/sciplot.hpp>
+using namespace sciplot;
 
 class regression { //Default access specifier is // private: //
     double xAxis[1000]{}, yAxis[1000]{};    // Max number of datapoints set to 1000
     double xAxisSorted[1000]{}, yAxisSorted[1000]{}; // Dataset numerically sorted. Utilized under statistical decriptors
-    
+
     const double e = 2.718281828459045;     // Euler's value approximated 
 
     // Working out values in regression analysis //
@@ -30,26 +30,28 @@ class regression { //Default access specifier is // private: //
     bool powFejl = false;                   // Can the power regression model ...?
 
     std::string RRName[5] = { "linear     ", "exponential", "logarithmic", "power      ", "polynomial " };  // For ranking purposes
+
     
-    std::vector<double> x, y, x_lin, y_lin, x_exp, y_exp, x_log, y_log, x_pow, y_pow, x_poly, y_poly; // Plotting datapoints
 
 public:
+    int iteration = 0;
+    
     int counter = 0;    // number of datapoints in dataset
 
     // Linear regression model: y = aLin x + bLin //
     double aLin = 0;    // Slope of linear regression model
-    double bLin = 0;    // Intercept of lineÃ¦r regressionsmodel
+    double bLin = 0;    // Intercept of lineær regressionsmodel
 
     // Exponential regression model: y = aExp e^(cExp * x) //
-    double aExp = 0;    // StartvÃ¦rdi af eksponentiel regressionsmodel
+    double aExp = 0;    // Startværdi af eksponentiel regressionsmodel
     double cExp = 0;    // Fremskrivningsfaktor af eksponentiel regressionsmodel
 
     // Logarithmic regression model: y = aLog ln(x) + bLog //
     double aLog = 0;    // "Fremskrivningsfaktor"??? af logaritmisk regressionsmodel
-    double bLog = 0;    // startvÃ¦rdi af logaritmisk regressionsmodel
+    double bLog = 0;    // startværdi af logaritmisk regressionsmodel
 
     // Power regression model: y = aPot x^cPot //
-    double aPow = 0;    // StartvÃ¦rdi af potentiel regressionsmodel
+    double aPow = 0;    // Startværdi af potentiel regressionsmodel
     double cPow = 0;    // Eksponent af potentiel regressionsmodel
 
     // Second-degree polynomium regression model: a[2] x^2 + a[1] x + a[0] //
@@ -123,7 +125,7 @@ public:
                 counter++;                              // count up
                 if (counter > 1000) {                   // Account for datapoint limit
                     std::cout << "Attention: Max number of datapoints set to " << counter <<
-                                 "... Consider changing that under .cpp (l. 16) & (l. 117) " << "\n";
+                        "... Consider changing that under .cpp (l. 16) & (l. 117) " << "\n";
                     break;                              // Prevent data overflow. Make sure no more than the set datapoint limit is reached
                 }
                 std::cout << "Datapoint nr." << counter << "\t[" << x << ";" << y << "]\n";
@@ -191,7 +193,7 @@ private:        // The following private functions are made so because they are 
         aLog = (counter * sumXY - sumX * sumY) / (counter * sumXX - sumX * sumX);
         bLog = (sumXX * sumY - sumX * sumXY) / (counter * sumXX - sumX * sumX);
     }
-   
+
     void powReg() {
         sumX = 0, sumY = 0, sumXY = 0, sumXX = 0;
         for (int i = 0; i < counter; i++) {
@@ -225,9 +227,9 @@ private:        // The following private functions are made so because they are 
                 Y[i] = Y[i] + pow(xAxis[j], i) * yAxis[j];
         }
         for (int i = 0; i <= n; i++)
-            B[i][n + 1] = Y[i]; 
+            B[i][n + 1] = Y[i];
         int nn = n + 1;
-        
+
         for (int i = 0; i < nn; i++)
             for (int k = i + 1; k < nn; k++)
                 if (B[i][i] < B[k][i])
@@ -237,13 +239,13 @@ private:        // The following private functions are made so because they are 
                         B[k][j] = temp;
                     }
 
-        for (int i = 0; i < nn - 1; i++)            
+        for (int i = 0; i < nn - 1; i++)
             for (int k = i + 1; k < nn; k++) {
                 double t = B[k][i] / B[i][i];
                 for (int j = 0; j <= nn; j++)
                     B[k][j] = B[k][j] - t * B[i][j];
             }
-        
+
         for (int i = nn - 1; i >= 0; i--) {
             a[i] = B[i][nn];
             for (int j = 0; j < nn; j++)
@@ -313,7 +315,7 @@ private:        // The following private functions are made so because they are 
         SSR = 0, SST = 0;
 
         for (int i = 0; i < counter; i++) {
-            SSR = SSR + pow(yAxis[i] - potModel(xAxis[i]), 2);
+            SSR = SSR + pow(yAxis[i] - powModel(xAxis[i]), 2);
             SST = SST + pow(yAxis[i] - avgY, 2);
         }
 
@@ -463,7 +465,7 @@ public:
 
     double expModel(double xValue) { return cExp * pow(e, aExp * xValue); }
 
-    double potModel(double xValue) { return cPow * pow(xValue, aPow); }
+    double powModel(double xValue) { return cPow * pow(xValue, aPow); }
 
     double logModel(double xValue) { return aLog * log(xValue) + bLog; }
 
@@ -494,7 +496,7 @@ public:
                 outlier_count++;
                 outliers.push_front(xAxisSorted[i]); // Add the outlier to the list
             }
-                
+
             if (xAxisSorted[i] > Q3 + 1.5 * (Q3 - Q1)) {
                 outlier_count++;
                 outliers.push_front(xAxisSorted[i]); // Add the outlier to the list
@@ -506,7 +508,7 @@ public:
             std::cout << "(" << i << ") ";
         std::cout << "\n";
     }
-    
+
     void Youtliers() { // Find the number of datapoints that lie below 2/3 * Q1 and above 1.5 * Q3
         int outlier_count = 0;
         std::list<double> outliers{};
@@ -536,7 +538,7 @@ public:
         double XY = 0;
         for (int i = 0; i < counter; i++)
             XY = XY + xAxis[i] * yAxis[i];
-        return (XY - counter * avgX * avgY) / ( counter * sqrt(varianceX / counter) * sqrt(varianceY / counter) ); 
+        return (XY - counter * avgX * avgY) / (counter * sqrt(varianceX / counter) * sqrt(varianceY / counter));
     }
 
     void statistical_decriptors() {
@@ -560,7 +562,7 @@ public:
         std::cout << "(Y) Average/Mean = " << avgY << "\n\n";
 
         std::cout << "Linear correlation coefficient r:\t" << linCorrelationCoefficient() << "\n\n";
-        
+
         std::cout << "LATEST CALCULATIONS:\n";
         std::cout << "SumX = " << sumX << "\n";
         std::cout << "SumY = " << sumY << "\n";
@@ -570,116 +572,80 @@ public:
         std::cout << "SST = " << SST << "\n\n";
     }
 
-private:
-    void plotClear() { x.clear(); y.clear(); x_lin.clear(); y_lin.clear(); x_exp.clear(); y_exp.clear(); 
-                       x_log.clear(); y_log.clear(); x_pow.clear(); y_pow.clear(); x_poly.clear(); y_poly.clear(); }
-
-public:
-    void plot(std::string lin, std::string exp, std::string log, std::string pow, std::string poly) {
-        plotClear();
-
-        for (int i = 0; i < counter; i++) {         // Set dataset up for plotting
-            x.push_back(xAxis[i]);
-            y.push_back(yAxis[i]);
+    void sciplotter() {
+        std::valarray<double> xSci(counter), ySci(counter), ySci_lin(counter), ySci_exp(counter), ySci_log(counter), ySci_pow(counter), ySci_poly(counter), ySci_linError(counter);
+        Plot2D plot;
+        
+        for (int i = 0; i < counter; i++) {
+            xSci[i] = xAxis[i];
+            ySci[i] = yAxis[i];
+            ySci_lin[i] = linModel(xAxis[i]);
+            ySci_poly[i] = polyModel(xAxis[i]);
         }
-        for (int i = 0; i < counter; i++) {         // Set linear regression model up for plotting
-            x_lin.push_back(xAxis[i]);
-            y_lin.push_back(linModel(xAxis[i]));
-        }
+        plot.drawDots(xSci, ySci).label("Dataset").borderLineWidth(4).lineColor("#0000FF");
+        plot.drawCurve(xSci, ySci_poly).label("Polynomial").lineWidth(0.5).lineColor("#000000");
+        plot.drawCurve(xSci, ySci_lin).label("Linear").lineWidth(0.5).lineColor("#FF0000");
 
         if (expFejl == false) {
-            for (int i = 0; i < counter; i++) {     // Set exponential regression model up for plotting
-                x_exp.push_back(xAxis[i]);
-                y_exp.push_back(expModel(xAxis[i]));
-            }
+            for (int i = 0; i < counter; i++)
+                ySci_exp[i] = expModel(xAxis[i]);
+            plot.drawCurve(xSci, ySci_exp).label("Exponential").lineWidth(0.5).lineColor("#00FF00");
         }
-
         if (logFejl == false) {
-            for (int i = 0; i < counter; i++) {     // Set logarithmic regression model up for plotting
-                x_log.push_back(xAxis[i]);
-                y_log.push_back(logModel(xAxis[i]));
-            }
+            for (int i = 0; i < counter; i++)
+                ySci_log[i] = logModel(xAxis[i]);
+            plot.drawCurve(xSci, ySci_log).label("Logarithmic").lineWidth(0.5).lineColor("#FF00FF");
         }
-
         if (powFejl == false) {
-            for (int i = 0; i < counter; i++) {     // Set power regression model up for plotting
-                x_pow.push_back(xAxis[i]);
-                y_pow.push_back(potModel(xAxis[i]));
-            }
+            for (int i = 0; i < counter; i++)
+                ySci_pow[i] = powModel(xAxis[i]);
+            plot.drawCurve(xSci, ySci_pow).label("Power").lineWidth(0.5).lineColor("#00FFFF");
         }
-        for (int i = 0; i < counter; i++) {         // Set polynomial regression model up for plotting
-            x_poly.push_back(xAxis[i]);
-            y_poly.push_back(polyModel(xAxis[i]));
-        }
+        plot.xlabel("x"); plot.ylabel("y");
+        plot.legend().atOutsideRight().displayVertical().fontSize(6).title(filename);
 
-        plt::plot(x, y, "bD");
-        plt::plot(x_poly, y_poly, { {"color", "#000000"}, {"ls", ":"}, {"label", poly} });
-        plt::plot(x_lin, y_lin, { {"color", "#FF0000"}, {"ls", ":"}, {"label", lin} });
-        if (expFejl == false)
-            plt::plot(x_exp, y_exp, { {"color", "#00FF00"}, {"ls", ":"}, {"label", exp} });
-        if (logFejl == false)
-            plt::plot(x_log, y_log, { {"color", "#FF00FF"}, {"ls", ":"}, {"label", log} });
-        if (powFejl == false)
-            plt::plot(x_pow, y_pow, { {"color", "#00FFFF"}, {"ls", ":"}, {"label", pow} });
-        plt::xlabel("x");
-        plt::ylabel("y");
-        plt::legend();
-        plt::title(filename);
+        Figure figure = { {plot}};
+        Canvas canvas = { { figure } };
+
+        canvas.show();
+        canvas.~Canvas();   figure.~Figure();   plot.~Plot2D();     // Destroy constructed objects
     }
-    void plotResidual(std::string lin, std::string exp, std::string log, std::string pow, std::string poly) {
-        plotClear();
 
-        for (int i = 0; i < counter; i++) {         // Set linear regression model up for plotting
-            x_lin.push_back(xAxis[i]);
-            y_lin.push_back(yAxis[i] - linModel(xAxis[i]));
+    void sciplotterResidual() {
+        std::valarray<double> xSci(counter), ySci(counter), ySci_lin(counter), ySci_exp(counter), ySci_log(counter), ySci_pow(counter), ySci_poly(counter), ySci_linError(counter);
+        Plot2D plotResidual;
+
+        for (int i = 0; i < counter; i++) {
+            xSci[i] = xAxis[i];
+            ySci_lin[i] = yAxis[i] - linModel(xAxis[i]);
+            ySci_poly[i] = yAxis[i] - polyModel(xAxis[i]);
         }
+        plotResidual.drawDots(xSci, ySci_poly).label("Polynomial").borderLineWidth(4).lineColor("#000000");
+        plotResidual.drawDots(xSci, ySci_lin).label("Linear").borderLineWidth(4).lineColor("#FF0000");
 
         if (expFejl == false) {
-            for (int i = 0; i < counter; i++) {     // Set exponential regression model up for plotting
-                x_exp.push_back(xAxis[i]);
-                y_exp.push_back(yAxis[i] - expModel(xAxis[i]));
-            }
+            for (int i = 0; i < counter; i++)
+                ySci_exp[i] = yAxis[i] - expModel(xAxis[i]);
+            plotResidual.drawDots(xSci, ySci_exp).label("Exponential").borderLineWidth(4).lineColor("#00FF00");
         }
-
         if (logFejl == false) {
-            for (int i = 0; i < counter; i++) {     // Set logarithmic regression model up for plotting
-                x_log.push_back(xAxis[i]);
-                y_log.push_back(yAxis[i] - logModel(xAxis[i]));
-            }
+            for (int i = 0; i < counter; i++)
+                ySci_log[i] = yAxis[i] - logModel(xAxis[i]);
+            plotResidual.drawDots(xSci, ySci_log).label("Logarithmic").borderLineWidth(4).lineColor("#FF00FF");
         }
-
         if (powFejl == false) {
-            for (int i = 0; i < counter; i++) {     // Set power regression model up for plotting
-                x_pow.push_back(xAxis[i]);
-                y_pow.push_back(yAxis[i] - potModel(xAxis[i]));
-            }
+            for (int i = 0; i < counter; i++)
+                ySci_pow[i] = yAxis[i] - powModel(xAxis[i]);
+            plotResidual.drawDots(xSci, ySci_pow).label("Power").borderLineWidth(4).lineColor("#00FFFF");
         }
-        for (int i = 0; i < counter; i++) {         // Set polynomial regression model up for plotting
-            x_poly.push_back(xAxis[i]);
-            y_poly.push_back(yAxis[i] - polyModel(xAxis[i]));
-        }
-        std::vector < double> zero = { xAxis[0]};
-        plt::plot(zero, zero, { {"color", "#000000"}, {"ls", ":"}, {"label", poly} });
-        plt::plot(zero, zero, { {"color", "#FF0000"}, {"ls", ":"}, {"label", lin} });
-        if (expFejl == false)
-            plt::plot(zero, zero, { {"color", "#00FF00"}, {"ls", ":"}, {"label", exp} });
-        if (logFejl == false)
-            plt::plot(zero, zero, { {"color", "#FF00FF"}, {"ls", ":"}, {"label", log} });
-        if (powFejl == false)
-            plt::plot(zero, zero, { {"color", "#00FFFF"}, {"ls", ":"}, {"label", pow} });
+        plotResidual.xlabel("x"); plotResidual.ylabel("Residual");
+        plotResidual.legend().atOutsideRight().displayVertical().fontSize(6).title(filename);
 
-        plt::plot(x_poly, y_poly, "k*");
-        plt::plot(x_lin, y_lin, "r*");
-        if (expFejl == false)
-            plt::plot(x_exp, y_exp, "g*");
-        if (logFejl == false)
-            plt::plot(x_log, y_log, "m*");
-        if (powFejl == false)
-            plt::plot(x_pow, y_pow, "c*");
-        plt::xlabel("x");
-        plt::ylabel("Residual");
-        plt::legend();
-        plt::title(filename);
+        Figure figure = { {plotResidual} };
+        Canvas canvas = { { figure } };
+
+        canvas.show();
+        canvas.~Canvas();   figure.~Figure();   plotResidual.~Plot2D();     // Destroy constructed objects
     }
 };
 
@@ -689,7 +655,7 @@ int main()
     struct stat sb; // (l. 7)
 
     // Find the absolute path of the following file/program //
-    std::filesystem::path filelocation("RegressionAnalysis_matplotlib.cpp");
+    std::filesystem::path filelocation("RegressionAnalysis_sciplot.cpp");
 
     int input;
     double xValue;
@@ -738,41 +704,24 @@ int main()
                 std::cout.precision(xValue); // Set amount of floating point numbers. Defaults to 6
                 system("cls");      // Clear screen
                 break;
-            case 7: //https://matplotlib-cpp.readthedocs.io/en/latest/docs.html
-                reg.plot(std::string("Lin: ") + "y = " + std::to_string(reg.aLin) + " x + " + std::to_string(reg.bLin) + std::string(", R^2 = ") + std::to_string(reg.RR[0]),
-                    std::string("Exp: ") + "y = " + std::to_string(reg.cExp) + " e ^ " + std::to_string(reg.aExp) + "x" + std::string(", R^2 = ") + std::to_string(reg.RR[1]),
-                    std::string("Log: ") + "y = " + std::to_string(reg.bLog) + " + " + std::to_string(reg.aLog) + " ln(x)" + std::string(", R^2 = ") + std::to_string(reg.RR[2]),
-                    std::string("Pow: ") + "y = " + std::to_string(reg.cPow) + " x ^ " + std::to_string(reg.aPow) + std::string(", R^2 = ") + std::to_string(reg.RR[3]),
-                    std::string("Poly: ") + "y = " + std::to_string(reg.a[2]) + "x^2 + " + std::to_string(reg.a[1]) + "x + " + std::to_string(reg.a[0]) + std::string(", R^2 = ") + std::to_string(reg.RR[4]));
-                plt::show();
+            case 7: 
+                reg.sciplotter();
                 system("pause");    // Press any key to continue...
                 system("cls");      // Clear screen
+                remove("plot.plt"); // Remove (junk) datafile
                 break;
             case 77:
-                reg.plotResidual(std::string("Lin: ") + "y = " + std::to_string(reg.aLin) + " x + " + std::to_string(reg.bLin) + std::string(", R^2 = ") + std::to_string(reg.RR[0]),
-                    std::string("Exp: ") + "y = " + std::to_string(reg.cExp) + " e ^ " + std::to_string(reg.aExp) + "x" + std::string(", R^2 = ") + std::to_string(reg.RR[1]),
-                    std::string("Log: ") + "y = " + std::to_string(reg.bLog) + " + " + std::to_string(reg.aLog) + " ln(x)" + std::string(", R^2 = ") + std::to_string(reg.RR[2]),
-                    std::string("Pow: ") + "y = " + std::to_string(reg.cPow) + " x ^ " + std::to_string(reg.aPow) + std::string(", R^2 = ") + std::to_string(reg.RR[3]),
-                    std::string("Poly: ") + "y = " + std::to_string(reg.a[2]) + "x^2 + " + std::to_string(reg.a[1]) + "x + " + std::to_string(reg.a[0]) + std::string(", R^2 = ") + std::to_string(reg.RR[4]));
-                plt::show();
+                reg.sciplotterResidual();
                 system("pause");    // Press any key to continue...
                 system("cls");      // Clear screen
+                remove("plot.plt"); // Remove (junk) datafile
                 break;
             case 777:
-                reg.plot(std::string("Lin: ") + "y = " + std::to_string(reg.aLin) + " x + " + std::to_string(reg.bLin) + std::string(", R^2 = ") + std::to_string(reg.RR[0]),
-                    std::string("Exp: ") + "y = " + std::to_string(reg.cExp) + " e ^ " + std::to_string(reg.aExp) + "x" + std::string(", R^2 = ") + std::to_string(reg.RR[1]),
-                    std::string("Log: ") + "y = " + std::to_string(reg.bLog) + " + " + std::to_string(reg.aLog) + " ln(x)" + std::string(", R^2 = ") + std::to_string(reg.RR[2]),
-                    std::string("Pow: ") + "y = " + std::to_string(reg.cPow) + " x ^ " + std::to_string(reg.aPow) + std::string(", R^2 = ") + std::to_string(reg.RR[3]),
-                    std::string("Poly: ") + "y = " + std::to_string(reg.a[2]) + "x^2 + " + std::to_string(reg.a[1]) + "x + " + std::to_string(reg.a[0]) + std::string(", R^2 = ") + std::to_string(reg.RR[4]));
-                plt::figure(2); //Make a seperate plot. Default parameter is 1
-                reg.plotResidual(std::string("Lin: ") + "y = " + std::to_string(reg.aLin) + " x + " + std::to_string(reg.bLin) + std::string(", R^2 = ") + std::to_string(reg.RR[0]),
-                    std::string("Exp: ") + "y = " + std::to_string(reg.cExp) + " e ^ " + std::to_string(reg.aExp) + "x" + std::string(", R^2 = ") + std::to_string(reg.RR[1]),
-                    std::string("Log: ") + "y = " + std::to_string(reg.bLog) + " + " + std::to_string(reg.aLog) + " ln(x)" + std::string(", R^2 = ") + std::to_string(reg.RR[2]),
-                    std::string("Pow: ") + "y = " + std::to_string(reg.cPow) + " x ^ " + std::to_string(reg.aPow) + std::string(", R^2 = ") + std::to_string(reg.RR[3]),
-                    std::string("Poly: ") + "y = " + std::to_string(reg.a[2]) + "x^2 + " + std::to_string(reg.a[1]) + "x + " + std::to_string(reg.a[0]) + std::string(", R^2 = ") + std::to_string(reg.RR[4]));
-                plt::show();
+                reg.sciplotter();
+                reg.sciplotterResidual();
                 system("pause");    // Press any key to continue...
                 system("cls");      // Clear screen
+                remove("plot.plt"); // Remove (junk) datafile
                 break;
             case 6:
                 system("cls");      // Clear screen
@@ -790,7 +739,7 @@ int main()
             case 4:
                 std::cout << "Power \nType in x-value:\n";
                 std::cin >> xValue;
-                std::cout << reg.cPow << " * " << xValue << " ^ " << reg.aPow << " = " << reg.potModel(xValue) << "\n";
+                std::cout << reg.cPow << " * " << xValue << " ^ " << reg.aPow << " = " << reg.powModel(xValue) << "\n";
                 system("pause");    // Press any key to continue...
                 system("cls");      // Clear screen
                 break;
