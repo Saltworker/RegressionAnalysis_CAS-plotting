@@ -1,6 +1,6 @@
 # Imagine regression analysis using Excel, Geogebra, Graph, etc. except it gets done much faster
 
-![Screenshot](Screenshots/Screenshot_1.0.jpg) 
+![Screenshot](Screenshots/Screenshot_test.jpg) 
 
 **NOTE: The program Graph is simply used for testing the results of the regression model & coefficient of determination R^2**
 
@@ -30,7 +30,7 @@ Using .txt files as input, the following can be made:
 - python310.dll
 - [FILENAME].txt
 
-![Screenshot](Screenshots/Screenshot_repository.jpg) 
+![Screenshot](Screenshots/Screenshot_1.0.jpg) 
 
 The format of this [FILENAME].txt can be seen with the available example datasets. Compatible data (in the current state of the program) can be boiled down to the following datapoints:
 
