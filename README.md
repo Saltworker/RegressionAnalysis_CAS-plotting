@@ -47,7 +47,7 @@ The format of this [FILENAME].txt can be seen with the available example dataset
 You're welcome
 ## To run regressionAnalysis_sciplot.cpp:
 ### Install gnuplot
-Once this is installed, you'll be able to run the release "1.0 Sciplot-edition"
+Once this is installed, you'll be able to run the executable attached to the release "1.0 Sciplot-edition"
 
 https://sourceforge.net/projects/gnuplot/
 
