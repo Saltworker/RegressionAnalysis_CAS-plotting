@@ -31,8 +31,6 @@ class regression { //Default access specifier is // private: //
 
     std::string RRName[5] = { "linear     ", "exponential", "logarithmic", "power      ", "polynomial " };  // For ranking purposes
 
-    
-
 public:
     int iteration = 0;
     
@@ -40,18 +38,18 @@ public:
 
     // Linear regression model: y = aLin x + bLin //
     double aLin = 0;    // Slope of linear regression model
-    double bLin = 0;    // Intercept of lineær regressionsmodel
+    double bLin = 0;    // Intercept of lineÃ¦r regressionsmodel
 
     // Exponential regression model: y = aExp e^(cExp * x) //
-    double aExp = 0;    // Startværdi af eksponentiel regressionsmodel
+    double aExp = 0;    // StartvÃ¦rdi af eksponentiel regressionsmodel
     double cExp = 0;    // Fremskrivningsfaktor af eksponentiel regressionsmodel
 
     // Logarithmic regression model: y = aLog ln(x) + bLog //
     double aLog = 0;    // "Fremskrivningsfaktor"??? af logaritmisk regressionsmodel
-    double bLog = 0;    // startværdi af logaritmisk regressionsmodel
+    double bLog = 0;    // startvÃ¦rdi af logaritmisk regressionsmodel
 
     // Power regression model: y = aPot x^cPot //
-    double aPow = 0;    // Startværdi af potentiel regressionsmodel
+    double aPow = 0;    // StartvÃ¦rdi af potentiel regressionsmodel
     double cPow = 0;    // Eksponent af potentiel regressionsmodel
 
     // Second-degree polynomium regression model: a[2] x^2 + a[1] x + a[0] //
